@@ -1,7 +1,6 @@
 import { html } from "https://esm.sh/htm@3.1.1/preact?external=preact";
-import { useState, useMemo } from "preact/hooks";
+import {  useMemo } from "preact/hooks";
 import Button from "./button";
-import "./menu.css";
 
 /**
  *
@@ -19,14 +18,34 @@ function Menu({ data, onChange, isOpen }) {
       ${modules.map(
         (module) =>
           html`
-            <${Button}
-              data=${module}
-              onClick=${(e, id) => onChange(id)}
-            />
+            <${Button} data=${module} onClick=${(e, id) => onChange(id)} />
           `
       )}
     </div>
   `;
 }
+
+document.head.insertAdjacentHTML(
+  "beforeend",
+  `<style>
+  .menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--menu-width) * -1); 
+    width: var(--menu-width);
+    padding-top: calc(var(--nav-height) + 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 8;
+    background-color: var(--c_bg-secondary);
+    transition: left 0.3s ease-in-out;
+    &.menu--opened {
+      left: 0;
+    }
+  }
+</style>`
+);
 
 export default Menu;
