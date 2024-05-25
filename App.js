@@ -1,14 +1,16 @@
 import { render } from "preact";
-import { useReducer } from "preact/hooks";
 import { html } from "https://esm.sh/htm@3.1.1/preact?external=preact";
+import Index from "./src/pages";
+import "./index.css";
 
 function App() {
-  const [count, add] = useReducer((a, b) => a + b, 0);
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/assets/data.xml", false);
+  xhttp.send();
+  const data = xhttp.responseXML;
 
   return html`
-    <button onClick=${() => add(-1)}>Decrement</button>
-    <input readonly size="4" value=${count} />
-    <button onClick=${() => add(1)}>Increment</button>
+    <${Index} data=${data} />
   `;
 }
 
